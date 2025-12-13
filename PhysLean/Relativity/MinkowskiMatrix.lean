@@ -139,6 +139,10 @@ as well as other properties related to squaring the Minkowski matrix.
 lemma sq : @minkowskiMatrix d * minkowskiMatrix = 1 := by
   simp [as_block, fromBlocks_multiply]
 
+@[simp]
+lemma η_inv_eq_self : η⁻¹ =  @minkowskiMatrix d := by
+  rw [inv_eq_left_inv minkowskiMatrix.sq]
+
 /-- Multiplying any element on the diagonal of the Minkowski matrix by itself gives `1`. -/
 @[simp]
 lemma η_apply_mul_η_apply_diag (μ : Fin 1 ⊕ Fin d) : η μ μ * η μ μ = 1 := by
@@ -186,10 +190,17 @@ This is a useful part of the API but is not used often.
 
 -/
 
+lemma η_mul_left_injective : Function.Injective (@minkowskiMatrix d * ·) := by
+  intro _ _ h
+  convert congr_arg (η * ·) h <;> simp [←mul_assoc]
+
+lemma η_mul_right_injective : Function.Injective (· *@minkowskiMatrix d) := by
+  intro _ _ h
+  convert congr_arg (· * η) h <;> simp [mul_assoc]
+
 lemma mul_η_diag_eq_iff {μ : Fin 1 ⊕ Fin d} {x y : ℝ} :
     η μ μ * x = η μ μ * y ↔ x = y :=
   mul_right_inj' η_diag_ne_zero
-
 
 /-!
 
