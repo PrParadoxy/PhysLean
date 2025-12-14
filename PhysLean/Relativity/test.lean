@@ -52,7 +52,6 @@ open scoped Manifold
 
 
 
-
 instance (n : Type*) [Fintype n] [DecidableEq n] :
     LieGroup 𝓘(ℝ, Matrix n n ℝ) ⊤
       (GeneralLinearGroup n ℝ) := by
